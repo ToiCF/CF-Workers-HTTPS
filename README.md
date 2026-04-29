@@ -108,8 +108,6 @@ Worker → 原始 TCP → TLSClientMini 握手 → CONNECT target → TCP 隧道
 - `HTTPS.js` 这条源码路径使用的是完整 `TLSClient.js`，并通过 `insecure: true` 明确关闭证书 / 主机名校验。
 - `HTTPSMini.js` 内联的是 `TLSClientMini.js` 这一套最小 TLS 实现；它本身就不做完整证书校验，因此天然属于兼容 / 跳过验证路径。
 
-公开发布时可以只放 Mini 线相关文件，但这两种实现关系本身仍然成立。
-
 ## TLSClientMini 的定位
 
 `TLSClientMini.js` 不是浏览器级完整 TLS 栈，也不是为了做完整 PKI 验证器。
@@ -233,7 +231,7 @@ vless://<uuid>@<front-host>:<front-port>/?type=ws&encryption=none&host=<worker-h
 
 - `secureTransport` 只负责 `Worker → 代理` 这一跳是否使用 Cloudflare 原生 TLS。
 - 原生接口没有“跳过证书验证”的开关。
-- 公开主线里，标准 HTTPS 代理更适合 `domain:port + 正常证书` 的场景。
+- 标准 HTTPS 代理更适合 `domain:port + 正常证书` 的场景。
 - 纯 `IP:PORT`、自签、证书不匹配等情况，通常要走自定义 TLS 路径。
 - `TLSClientMini` 的目标是最小可用，不是完整浏览器 TLS 能力复刻，也不提供完整证书校验能力。
 - 这是协议研究实现，不保证所有代理都稳定可用。
